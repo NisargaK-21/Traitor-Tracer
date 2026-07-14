@@ -5,7 +5,7 @@
 .env.*
 !.env.example
 !.env.local.example
-
+firebase-service-account.json
 # =========================
 # Node.js
 # =========================

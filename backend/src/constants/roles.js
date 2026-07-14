@@ -1,0 +1,8 @@
+const Roles=Object.freeze({
+  EMPLOYEE:"EMPLOYEE",
+  MANAGER:"MANAGER",
+  ADMIN:"ADMIN",
+  SECURITY_ANALYST:"SECURITY_ANALYST",
+  SYSTEM_ADMIN:"SYSTEM_ADMIN",
+});
+export default Roles;
