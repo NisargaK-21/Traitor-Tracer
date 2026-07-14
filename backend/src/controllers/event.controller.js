@@ -1,10 +1,10 @@
 import Event from "../models/Event.js";
 import User from "../models/User.js";
+import Alert from "../models/Alert.js";
 import aiService from "../services/ai.service.js";
 
 export const createEvent = async (req, res) => {
   try {
-    // Find user using employeeId
     const user = await User.findOne({
       employeeId: req.body.employeeId,
     });
@@ -16,10 +16,8 @@ export const createEvent = async (req, res) => {
       });
     }
 
-    // Analyze event with AI Service
     const aiResult = await aiService.analyze(req.body);
 
-    // Create Event
     const event = await Event.create({
       user: user._id,
 
@@ -44,15 +42,70 @@ export const createEvent = async (req, res) => {
       riskLevel: aiResult.riskLevel,
     });
 
+    let alert = null;
+
+    if (aiResult.riskScore >= 80) {
+      alert = await Alert.create({
+        event: event._id,
+        user: user._id,
+        riskScore: aiResult.riskScore,
+        riskLevel: aiResult.riskLevel,
+        reason: aiResult.reasons.join(", "),
+      });
+    }
+
     return res.status(201).json({
       success: true,
       event,
+      alert,
       aiResult,
     });
   } catch (err) {
     console.error(err);
 
     return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+export const getEvents = async (req, res) => {
+  try {
+    const events = await Event.find()
+      .populate("user", "employeeId fullName email role")
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      events,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+export const getEventById = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id)
+      .populate("user", "employeeId fullName email role");
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      event,
+    });
+  } catch (err) {
+    res.status(500).json({
       success: false,
       message: err.message,
     });
