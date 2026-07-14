@@ -1,4 +1,4 @@
-import admin from "../config/firebase.js";
+import { initializeFirebase } from "../config/firebase.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
@@ -11,7 +11,9 @@ const authenticate = asyncHandler(async (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
-  const decoded = await admin.auth().verifyIdToken(token);
+  const auth = initializeFirebase();
+
+  const decoded = await auth.verifyIdToken(token);
 
   req.user = decoded;
 

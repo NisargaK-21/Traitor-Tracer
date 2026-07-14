@@ -60,6 +60,14 @@ const eventSchema = new mongoose.Schema(
       enum: Object.values(RiskLevels),
       default: RiskLevels.LOW,
     },
+    anomaly: {
+    type: Boolean,
+    default: false,
+    },
+    reasons: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,

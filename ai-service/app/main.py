@@ -1,7 +1,17 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.routes import router
+
+app = FastAPI(
+    title="Traitor Tracer AI Service",
+    version="1.0.0"
+)
+
+app.include_router(router)
+
 
 @app.get("/")
-def root():
-    return {"message": "AI Service Running"}
+def home():
+    return {
+        "message": "AI Service Running"
+    }
