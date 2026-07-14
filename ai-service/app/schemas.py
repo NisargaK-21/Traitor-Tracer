@@ -4,7 +4,7 @@ from pydantic import BaseModel
 class AnalyzeRequest(BaseModel):
     employeeId: str
     role: str
-    eventType: str
+    eventType: str = ""
     hour: int
     failedLogins: int
     downloads: int

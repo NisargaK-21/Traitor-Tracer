@@ -44,7 +44,7 @@ export const createEvent = async (req, res) => {
 
     let alert = null;
 
-    if (aiResult.riskScore >= 80) {
+    if (aiResult.riskScore >= 40) {
       alert = await Alert.create({
         event: event._id,
         user: user._id,

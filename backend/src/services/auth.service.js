@@ -14,17 +14,21 @@ class AuthService {
       userId,
       {
         lastLogin: new Date(),
-        $inc: {
-          "metadata.loginCount": 1,
-        },
+        $inc: { "metadata.loginCount": 1 },
         $set: {
           "metadata.lastIPAddress": ipAddress,
           "metadata.lastDevice": device,
         },
       },
-      {
-        new: true,
-      }
+      { new: true }
+    );
+  }
+
+  async updateName(userId, fullName) {
+    return User.findByIdAndUpdate(
+      userId,
+      { $set: { fullName } },
+      { new: true }
     );
   }
 }

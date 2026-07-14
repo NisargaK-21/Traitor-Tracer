@@ -8,16 +8,24 @@ const login = asyncHandler(async (req, res) => {
 
   let user = await authService.findUser(firebaseUser.uid);
 
+  const resolvedName =
+    firebaseUser.name ||
+    firebaseUser.display_name ||
+    firebaseUser.email?.split("@")[0] ||
+    "Employee";
+
   if (!user) {
     user = await authService.createUser({
       firebaseUid: firebaseUser.uid,
       employeeId: `EMP${Date.now()}`,
-      fullName: firebaseUser.name || "Unknown User",
+      fullName: resolvedName,
       email: firebaseUser.email,
       role: Roles.EMPLOYEE,
-      department: "Not Assigned",
-      designation: "Employee",
+      department: "Banking Operations",
+      designation: "Banking Officer",
     });
+  } else if (user.fullName === "Unknown User" || user.fullName === "Employee") {
+    user = await authService.updateName(user._id, resolvedName);
   }
 
   const ipAddress =
