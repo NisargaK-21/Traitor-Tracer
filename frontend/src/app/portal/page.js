@@ -305,8 +305,10 @@ export default function PortalPage() {
       ...params,
       adminAction: eventType === "APPROVE_LOAN" && suspiciousSession,
     };
+    console.log("Payload being sent:", payload);
     return api.post("/events", payload);
   };
+
 
   const handleApprove = async (loan) => {
     setModalLoading("approve");

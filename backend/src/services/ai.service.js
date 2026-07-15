@@ -24,7 +24,10 @@ class AIService {
 
       const response = await axios.post(
         `${process.env.AI_SERVICE_URL}/analyze`,
-        eventData
+        eventData,
+        {
+          timeout: 10000,
+        }
       );
 
       console.log("AI Status:", response.status);
