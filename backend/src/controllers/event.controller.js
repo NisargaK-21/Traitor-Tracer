@@ -1,3 +1,7 @@
+import Event from "../models/Event.js";
+import User from "../models/User.js";
+import Alert from "../models/Alert.js";
+import aiService from "../services/ai.service.js";
 export const createEvent = async (req, res) => {
   try {
     console.log("STEP 1 - Request received");
