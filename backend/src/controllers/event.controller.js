@@ -88,3 +88,45 @@ export const createEvent = async (req, res) => {
     });
   }
 };
+
+export const getEvents = async (req, res) => {
+  try {
+    const events = await Event.find()
+      .populate("user", "employeeId fullName email role")
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      events,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+export const getEventById = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id)
+      .populate("user", "employeeId fullName email role");
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      event,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
