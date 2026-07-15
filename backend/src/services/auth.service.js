@@ -31,6 +31,22 @@ class AuthService {
       { new: true }
     );
   }
+
+  async findUserByEmail(email) {
+  return User.findOne({ email });
 }
+
+async updateFirebaseUid(userId, firebaseUid) {
+  return User.findByIdAndUpdate(
+    userId,
+    {
+      $set: { firebaseUid }
+    },
+    { new: true }
+  );
+}
+}
+
+
 
 export default new AuthService();

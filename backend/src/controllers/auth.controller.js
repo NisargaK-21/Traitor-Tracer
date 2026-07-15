@@ -8,13 +8,25 @@ const login = asyncHandler(async (req, res) => {
 
   let user = await authService.findUser(firebaseUser.uid);
 
-  const resolvedName =
-    firebaseUser.name ||
-    firebaseUser.display_name ||
-    firebaseUser.email?.split("@")[0] ||
-    "Employee";
+const resolvedName =
+  firebaseUser.name ||
+  firebaseUser.display_name ||
+  firebaseUser.email?.split("@")[0] ||
+  "Employee";
 
-  if (!user) {
+if (!user) {
+
+  // Check whether this email already exists
+  user = await authService.findUserByEmail(firebaseUser.email);
+
+  if (user) {
+    // Firebase account recreated → update stored UID
+    user = await authService.updateFirebaseUid(
+      user._id,
+      firebaseUser.uid
+    );
+  } else {
+    // Completely new employee
     user = await authService.createUser({
       firebaseUid: firebaseUser.uid,
       employeeId: `EMP${Date.now()}`,
@@ -24,9 +36,20 @@ const login = asyncHandler(async (req, res) => {
       department: "Banking Operations",
       designation: "Banking Officer",
     });
-  } else if (user.fullName === "Unknown User" || user.fullName === "Employee") {
-    user = await authService.updateName(user._id, resolvedName);
   }
+}
+
+if (
+  user.fullName === "Unknown User" ||
+  user.fullName === "Employee"
+) {
+  user = await authService.updateName(
+    user._id,
+    resolvedName
+  );
+}
+
+
 
   const ipAddress =
     req.headers["x-forwarded-for"] ||
