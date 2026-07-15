@@ -1,136 +1,376 @@
-# Traitor Tracer
+# 🛡️ Traitor Tracer
 
-Traitor Tracer is a full-stack insider-threat monitoring prototype that combines a modern web frontend, an Express backend, and a Python AI service to analyze suspicious behavior and assign risk scores.
+> AI-Powered Insider Threat Detection & Privileged Access Misuse Prevention Platform
 
-## Overview
+Traitor Tracer is an AI-driven security platform designed to detect insider threats and privileged account misuse in banking environments. It continuously analyzes employee activities, identifies anomalous behaviour using machine learning, generates real-time security alerts, verifies audit log integrity using cryptographic signatures, and enables risk-based access control for high-risk operations.
 
-The project is designed to simulate an insider-threat detection workflow for a security-oriented application. It collects user activity/event data, sends that data to an AI-based risk engine, stores the result, and presents alerts and insights through a dashboard.
+---
 
-This is best understood as an integrated MVP/prototype rather than a production-ready security platform. The core flow is implemented in code, but runtime success still depends on proper environment setup and external services such as MongoDB, Redis, Firebase, and the AI service.
+# 📌 Problem Statement
 
-## Project flow
+**Privileged Access Misuse & Insider Threat Detection**
 
-1. A user interacts with the frontend portal or dashboard.
-2. The frontend sends requests to the backend API.
-3. The backend validates the request and looks up related user information.
-4. The backend calls the AI service to analyze the event and calculate risk.
-5. The AI service returns a risk score, risk level, and reasons.
-6. The backend stores the event and, when appropriate, creates an alert.
-7. The frontend displays the updated data through the dashboard and alert views.
+Financial institutions face significant risks from malicious or compromised employees, contractors, administrators, and third-party vendors. Traditional security systems often fail to detect behavioural anomalies before sensitive data is exposed.
 
-## Architecture
+Traitor Tracer addresses this challenge by combining AI-powered behavioural analytics with cryptographic integrity verification to proactively detect and respond to insider threats.
 
-The project is organized into three main layers:
+---
 
-- Frontend: Next.js-based UI for portal and admin/dashboard views
-- Backend: Express API for auth, event handling, alerts, and service integration
-- AI service: FastAPI-based risk engine for scoring and reasoning
+# 🎯 Key Features
 
-The backend connects to MongoDB for persistent records and also includes Redis-related configuration as part of the stack.
+- 🤖 AI-based Behaviour Analysis
+- 🚨 Real-Time Insider Threat Detection
+- 📊 Dynamic Risk Score Calculation
+- 🔒 Risk-Based Access Control
+- 🛡️ Quantum-Safe Integrity Verification
+- 📈 Privileged Access Monitoring
+- 🔔 Automatic Alert Generation
+- 📋 Immutable Audit Event Verification
 
-## What is implemented
+---
 
-The codebase currently supports the following core pieces:
+# 🏗️ System Architecture
 
-- user-facing web UI in the frontend
-- backend routes and controllers for events, alerts, sessions, and auth-related flows
-- AI service endpoint for analyzing incoming event data
-- event creation flow that sends data to the AI service and stores the result
-- dashboard-style views for monitoring activity and alerts
-
-## Repository structure
-
-```text
-.
-├── frontend/        # Next.js UI and pages
-├── backend/         # Express API and business logic
-├── ai-service/      # FastAPI risk engine
-└── README.md        # Project overview
+```
+                    +----------------------+
+                    |      Frontend        |
+                    |     Next.js App      |
+                    +----------+-----------+
+                               |
+                               |
+                               ▼
+                    +----------------------+
+                    |   Express Backend    |
+                    | Authentication       |
+                    | Event Processing     |
+                    | Alert Generation     |
+                    | Crypto Verification  |
+                    +----------+-----------+
+                               |
+                 +-------------+--------------+
+                 |                            |
+                 ▼                            ▼
+        +----------------+          +------------------+
+        |   AI Service   |          | MongoDB Atlas    |
+        | FastAPI + ML   |          | Users            |
+        | IsolationForest|          | Events           |
+        | Risk Scoring   |          | Alerts           |
+        +----------------+          +------------------+
 ```
 
-## Tech stack
+---
 
-| Layer | Technologies |
-|---|---|
-| Frontend | Next.js, React, Tailwind CSS, Recharts, Framer Motion |
-| Backend | Node.js, Express.js, Mongoose, JWT, Firebase Admin |
-| AI Service | Python, FastAPI |
-| Data | MongoDB, Redis |
-| Real-time | Socket.io |
-| Auth | Firebase Authentication + backend token handling |
+# 🧠 AI Behaviour Analysis
 
-## How to run locally
+The AI engine evaluates every incoming event using behavioural indicators such as:
 
-### Prerequisites
+- Login Time
+- Failed Login Attempts
+- Number of Downloads
+- VPN Usage
+- USB Device Detection
+- Administrative Privilege Usage
+- Event Type
+- User Role
 
-- Node.js 18+
-- Python 3.10+
-- MongoDB running locally or reachable remotely
-- Redis available if you want to use the configured Redis layer
+The model combines:
 
-### 1. Backend
+- Rule-Based Behaviour Analysis
+- Isolation Forest Machine Learning Algorithm
+
+Output includes:
+
+- Risk Score
+- Risk Level
+- Behavioural Reasons
+- Anomaly Detection
+
+---
+
+# 🔒 Cryptographic Integrity Verification
+
+Every audit event is protected using cryptographic hashing.
+
+When an event is created:
+
+```
+Event Data
+      │
+      ▼
+Generate SHA-256 Signature
+      │
+      ▼
+Store Signature Alongside Event
+```
+
+Whenever the event is retrieved:
+
+```
+Stored Event
+      │
+      ▼
+Generate New Signature
+      │
+      ▼
+Compare With Stored Signature
+      │
+      ▼
+Integrity Verified ✅ / Tampered ❌
+```
+
+If anyone modifies even a single field inside MongoDB, the verification immediately fails.
+
+---
+
+# 🚨 Risk-Based Access Control
+
+Based on AI-generated risk scores:
+
+| Risk Score | Action |
+|------------|---------|
+| 0 – 39 | Allow Operation |
+| 40 – 79 | Generate Security Alert |
+| 80 – 100 | Require Administrative Approval |
+
+This enables proactive security before sensitive operations are completed.
+
+---
+
+# ⚙️ Tech Stack
+
+## Frontend
+
+- Next.js
+- React
+- Tailwind CSS
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Firebase Admin SDK
+
+## AI Service
+
+- FastAPI
+- Python
+- Scikit-Learn
+- Isolation Forest
+- NumPy
+- Pandas
+
+## Security
+
+- SHA-256 Cryptographic Hashing
+- Integrity Verification
+- Risk-Based Access Control
+
+---
+
+# 📂 Project Structure
+
+```
+Traitor-Tracer
+│
+├── frontend/
+│   ├── app/
+│   ├── components/
+│   ├── lib/
+│   └── public/
+│
+├── backend/
+│   ├── src/
+│   │
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── validations/
+│   └── server.js
+│
+└── ai-service/
+    ├── app.py
+    ├── model.py
+    ├── schemas.py
+    └── requirements.txt
+```
+
+---
+
+# 📊 Workflow
+
+```
+User Activity
+      │
+      ▼
+Backend Receives Event
+      │
+      ▼
+AI Behaviour Analysis
+      │
+      ▼
+Risk Score Generated
+      │
+      ▼
+Generate Cryptographic Signature
+      │
+      ▼
+Store Event in MongoDB
+      │
+      ▼
+Generate Alert (if required)
+      │
+      ▼
+Return Decision
+```
+
+---
+
+# 🔔 Alert Generation
+
+High-risk activities automatically create alerts containing:
+
+- Employee Information
+- Risk Score
+- Risk Level
+- Behavioural Reasons
+- Timestamp
+- Event Reference
+
+---
+
+# 🧪 Example High Risk Event
+
+```json
+{
+    "employeeId":"EMP001",
+    "eventType":"EXPORT_DATA",
+    "downloads":250,
+    "failedLogins":8,
+    "vpn":true,
+    "usbInserted":true,
+    "adminAction":true
+}
+```
+
+AI Output
+
+```json
+{
+    "riskScore":100,
+    "riskLevel":"HIGH",
+    "anomaly":true
+}
+```
+
+---
+
+# 🔍 API Endpoints
+
+## Authentication
+
+```
+POST /api/auth/login
+```
+
+---
+
+## Events
+
+```
+POST /api/events
+GET  /api/events
+GET  /api/events/:id
+```
+
+---
+
+## Alerts
+
+```
+GET /api/alerts
+PATCH /api/alerts/:id
+```
+
+---
+
+# 🚀 Local Setup
+
+## Clone Repository
+
+```bash
+git clone https://github.com/NisargaK-21/Traitor-Tracer.git
+cd Traitor-Tracer
+```
+
+---
+
+## Backend
 
 ```bash
 cd backend
+
 npm install
+
 npm run dev
 ```
 
-The backend starts with the Express server and listens on port 5000 by default.
+---
 
-### 2. AI service
+## AI Service
 
 ```bash
 cd ai-service
-python -m venv venv
-venv\Scripts\activate   # Windows
+
 pip install -r requirements.txt
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+uvicorn app:app --reload
 ```
 
-### 3. Frontend
+---
+
+## Frontend
 
 ```bash
 cd frontend
+
 npm install
+
 npm run dev
 ```
 
-The frontend runs on port 3000 by default.
+---
 
-## Environment variables
+# 🌐 Deployment
 
-Before running the app, configure the required variables in the backend and frontend environment files.
+## Frontend
 
-Typical backend values include:
+Vercel
 
-- MONGODB_URI
-- AI_SERVICE_URL
-- PORT
-- Firebase-related settings if authentication is enabled in your local setup
+## Backend
 
-Typical frontend values include:
+Render
 
-- NEXT_PUBLIC_API_URL
+## AI Service
 
-## Notes on maturity
+Render
 
-This project is a solid full-stack prototype with a clear structure and working integration paths. It is suitable for learning, demoing, and further development.
+## Database
 
-For a fully working end-to-end run in practice, the remaining focus should be:
+MongoDB Atlas
 
-- validating the local environment setup,
-- confirming MongoDB, Redis, and Firebase connectivity,
-- testing the AI service integration with real event payloads,
-- and adding more robust deployment and testing coverage.
+---
 
-## Summary
+# 🎯 Future Enhancements
 
-Traitor Tracer demonstrates a realistic full-stack approach to insider-threat detection by combining:
-
-- a web-based frontend,
-- a backend API,
-- AI-based risk scoring,
-- and data persistence for alerts and events.
-
-
+- Multi-Factor Authentication (MFA)
+- Real-Time Threat Dashboard
+- Redis-Based Event Streaming
+- SIEM Integration
+- Role-Based Approval Workflow
+- Quantum-Safe Digital Signatures
+- Continuous Behaviour Learning
+- Email & Slack Alert Notifications
