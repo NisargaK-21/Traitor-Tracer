@@ -66,8 +66,12 @@ const eventSchema = new mongoose.Schema(
     },
     reasons: {
       type: [String],
-      default: [],
+      default: [],  
     },
+    signature: {
+  type: String,
+  required: true,
+},
   },
   {
     timestamps: true,
