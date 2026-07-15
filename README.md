@@ -5,6 +5,29 @@
 Traitor Tracer is an AI-driven security platform designed to detect insider threats and privileged account misuse in banking environments. It continuously analyzes employee activities, identifies anomalous behaviour using machine learning, generates real-time security alerts, verifies audit log integrity using cryptographic signatures, and enables risk-based access control for high-risk operations.
 
 ---
+# 🌐 Live Demo
+
+## Frontend (Vercel)
+
+https://frontend-nu-ebon-73.vercel.app
+
+---
+
+## Backend API (Render)
+
+https://traitor-backend.onrender.com
+
+---
+
+## AI Service (Render)
+
+https://traitor-ai-service.onrender.com
+
+Swagger Documentation:
+
+https://traitor-ai-service.onrender.com/docs
+   
+---
 
 # 📌 Problem Statement
 
