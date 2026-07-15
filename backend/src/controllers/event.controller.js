@@ -105,9 +105,20 @@ export const getEventById = async (req, res) => {
       event,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+  console.error("========== EVENT ERROR ==========");
+  console.error(err);
+  console.error(err.stack);
+
+  if (err.response) {
+    console.error("Status:", err.response.status);
+    console.error("Data:", err.response.data);
+  }
+
+  console.error("===============================");
+
+  return res.status(500).json({
+    success: false,
+    message: err.message,
+  });
   }
 };
