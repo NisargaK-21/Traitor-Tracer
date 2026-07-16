@@ -385,7 +385,19 @@ Render
 MongoDB Atlas
 
 ---
+## Screenshots
 
+[![Dashboard](assets/admin-dashboard.jpeg)](assets/admin-dashboard.jpeg)
+> Dashboard
+[![Admin's Employee portal](assets/admin-employee-portal.jpeg)](assets/admin-employee-portal.jpeg)
+> Admin's Employee portal
+[![Events](assets/admin-events.jpeg)](assets/admin-events.jpeg)
+> Events
+[![Overview](assets/admin-overview.jpeg)](assets/admin-overview.jpeg)
+> Overview
+[![Leaderboard](assets/admin-risk-leaderboard.jpeg)](assets/admin-risk-leaderboard.jpeg)
+> Leaderboard
+---
 # 🎯 Future Enhancements
 
 - Multi-Factor Authentication (MFA)
