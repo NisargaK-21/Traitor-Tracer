@@ -320,6 +320,9 @@ PATCH /api/alerts/:id
 
 ---
 
+## Images
+
+---
 # 🚀 Local Setup
 
 ## Clone Repository
