@@ -26,7 +26,11 @@ https://traitor-ai-service.onrender.com
 Swagger Documentation:
 
 https://traitor-ai-service.onrender.com/docs
-   
+
+Demonstration Video:
+
+https://youtu.be/hfOeGwgyalc?si=c4gDbjM0c1UviPWv
+
 ---
 
 # 📌 Problem Statement
