@@ -264,7 +264,8 @@ High-risk activities automatically create alerts containing:
 - Event Reference
 
 ---
-
+[![Alert generation](assets/admin-alerts.jpeg)](assets/admin-alerts.jpeg)
+---
 # 🧪 Example High Risk Event
 
 ```json
@@ -317,11 +318,6 @@ GET  /api/events/:id
 GET /api/alerts
 PATCH /api/alerts/:id
 ```
-
----
-
-## Images
-
 ---
 # 🚀 Local Setup
 
