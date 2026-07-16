@@ -1,36 +1,235 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Traitor Tracer Frontend
 
-## Getting Started
+Frontend application for **Traitor Tracer**, an AI-powered Insider Threat Detection system developed for the **FinSpark 2026 Banking Cybersecurity Hackathon**.
 
-First, run the development server:
+The frontend provides an intuitive interface for employees and security analysts to monitor privileged activities, visualize AI-generated risk insights, and respond to potential insider threats in real time.
+
+### Core Responsibilities
+
+- Secure User Authentication
+- Employee Dashboard
+- Security Analyst Dashboard
+- User Activity Monitoring
+- Risk Score Visualization
+- Alert Management
+- AI Explanation Display
+- Timeline & Audit View
+- Responsive User Interface
+
+---
+
+# Tech Stack
+
+| Layer | Technology |
+|--------|------------|
+| Framework | Next.js |
+| Library | React.js |
+| Styling | Tailwind CSS |
+| State Management | React Context API |
+| Authentication | Firebase Authentication |
+| API Communication | Axios |
+| Icons | Lucide React |
+| Routing | Next.js App Router |
+
+---
+
+# Project Structure
+
+```text
+frontend/
+│
+├── app/
+│
+├── components/
+│   ├── common/
+│   ├── dashboard/
+│   ├── alerts/
+│   ├── timeline/
+│   ├── charts/
+│   └── ui/
+│
+├── context/
+│
+├── hooks/
+│
+├── services/
+│   ├── api.js
+│   ├── auth.js
+│   └── activity.js
+│
+├── utils/
+│
+├── public/
+│
+├── styles/
+│
+├── .env.local
+├── package.json
+└── README.md
+```
+
+---
+
+# Frontend Architecture
+
+```text
+Employee / Security Analyst
+            │
+            ▼
+      Next.js Frontend
+            │
+            ▼
+ Firebase Authentication
+            │
+            ▼
+       Axios API Calls
+            │
+            ▼
+     Express.js Backend
+            │
+      ┌─────┴─────────┐
+      ▼               ▼
+ MongoDB Atlas   FastAPI AI Engine
+```
+
+---
+
+# Authentication Flow
+
+```text
+User Login
+      │
+      ▼
+Firebase Authentication
+      │
+      ▼
+Firebase ID Token
+      │
+      ▼
+Backend Verification
+      │
+      ▼
+Receive User Details
+      │
+      ▼
+Load Dashboard
+```
+
+---
+
+# User Flow
+
+```text
+User Login
+      │
+      ▼
+Employee / Analyst Dashboard
+      │
+      ▼
+View Activities
+      │
+      ▼
+Receive Risk Scores
+      │
+      ▼
+View Alerts
+      │
+      ▼
+Investigate Events
+```
+
+---
+
+# Main Pages
+
+- Login
+- Employee Dashboard
+- Security Analyst Dashboard
+- Activity Timeline
+- Alerts
+- User Profile
+- Audit History
+
+---
+
+# Features
+
+- Firebase Authentication
+- Responsive UI
+- Employee Dashboard
+- Analyst Dashboard
+- Activity Timeline
+- AI Risk Score Display
+- Alert Management
+- Audit Log Viewer
+- REST API Integration
+
+---
+
+# Environment Variables
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+
+NEXT_PUBLIC_FIREBASE_API_KEY=
+
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+
+NEXT_PUBLIC_FIREBASE_APP_ID=
+```
+
+---
+
+# Running the Frontend
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Start development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build for production
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# UI Modules
 
-To learn more about Next.js, take a look at the following resources:
+- Authentication
+- Employee Portal
+- Security Dashboard
+- Alerts
+- Risk Analysis
+- Activity Timeline
+- Profile
+- Settings
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Coding Standards
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js App Router
+- Component-Based Architecture
+- Reusable UI Components
+- React Hooks
+- Context API
+- Axios Service Layer
+- Tailwind CSS Utility Classes
+- Clean Folder Structure
+- Responsive Design
+- Environment-Based Configuration
