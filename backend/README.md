@@ -1,17 +1,20 @@
 # Traitor Tracer Backend
 
-Backend API for **Traitor Tracer**, an AI-driven Insider Threat Detection platform built for the Banking Cybersecurity Track.
+Backend API for **Traitor Tracer**, an AI-powered Insider Threat Detection system developed for the **FinSpark 2026 Banking Cybersecurity Hackathon**.
 
-The backend is responsible for:
+The backend serves as the core of the application by managing user authentication, activity monitoring, AI integration, and secure data processing for continuous insider threat detection.
+
+### Core Responsibilities
 
 - Authentication & Authorization
+- Role-Based Access Control (RBAC)
 - User Management
-- Privileged Event Logging
-- AI Service Integration
-- Alert Generation
-- Real-Time Notifications
-- Session Management
+- Activity Logging
+- AI Risk Engine Integration
+- Risk Score Generation
+- Alert Management
 - Audit Logging
+- Secure REST APIs
 
 ---
 
@@ -24,11 +27,9 @@ The backend is responsible for:
 | Database | MongoDB Atlas |
 | ODM | Mongoose |
 | Authentication | Firebase Admin SDK |
-| Real-time | Socket.io |
-| Cache | Redis |
-| AI Communication | Axios |
-| Logging | Morgan + Winston |
-| Security | Helmet, CORS, Express Rate Limit |
+| AI Integration | Axios |
+| Security | JWT, Helmet, Express Rate Limit, CORS |
+| Logging | Morgan |
 
 ---
 
@@ -44,17 +45,13 @@ backend/
 │
 ├── config/
 │   ├── db.js
-│   ├── firebase.js
-│   ├── redis.js
-│   └── socket.js
+│   └── firebase.js
 │
 ├── constants/
 │   ├── roles.js
 │   ├── permissions.js
-│   ├── rolePermissions.js
 │   ├── riskLevels.js
 │   ├── eventTypes.js
-│   ├── alertStatus.js
 │   └── httpStatus.js
 │
 ├── controllers/
@@ -63,16 +60,14 @@ backend/
 │   ├── authenticate.js
 │   ├── authorize.js
 │   ├── errorHandler.js
-│   ├── notFound.js
-│   ├── requestLogger.js
 │   ├── validate.js
-│   └── rateLimiter.js
+│   ├── rateLimiter.js
+│   └── requestLogger.js
 │
 ├── models/
 │   ├── User.js
-│   ├── Event.js
+│   ├── Activity.js
 │   ├── Alert.js
-│   ├── Session.js
 │   └── AuditLog.js
 │
 ├── routes/
@@ -80,27 +75,19 @@ backend/
 ├── services/
 │   ├── auth.service.js
 │   ├── user.service.js
-│   ├── event.service.js
+│   ├── activity.service.js
 │   ├── alert.service.js
-│   ├── ai.service.js
-│   ├── socket.service.js
-│   └── pqc.service.js
-│
-├── sockets/
+│   └── ai.service.js
 │
 ├── utils/
 │   ├── ApiError.js
 │   ├── ApiResponse.js
 │   ├── asyncHandler.js
-│   ├── logger.js
-│   └── helpers.js
+│   └── logger.js
 │
 ├── validations/
 │
-├── tests/
-│
 ├── .env
-├── .env.example
 ├── package.json
 └── README.md
 ```
@@ -109,85 +96,92 @@ backend/
 
 # Backend Architecture
 
-```
-Frontend
-     │
-     ▼
-Express Routes
-     │
-     ▼
+```text
+Employee Portal
+        │
+        ▼
+Express.js Routes
+        │
+        ▼
 Controllers
-     │
-     ▼
-Services
-     │
-     ├────────► MongoDB
-     │
-     ├────────► AI Service
-     │
-     ├────────► Redis
-     │
-     └────────► Socket.io
+        │
+        ▼
+Service Layer
+        │
+   ┌────┴──────────────┐
+   ▼                   ▼
+MongoDB Atlas     FastAPI AI Engine
+                        │
+                        ▼
+              Isolation Forest +
+            Rule-Based Risk Engine
+                        │
+                        ▼
+             Risk Score & Alerts
 ```
 
 ---
 
 # Authentication Flow
 
-```
-Frontend Login
-        │
+```text
+User Login
+      │
+      ▼
 Firebase Authentication
-        │
+      │
+      ▼
 Firebase ID Token
-        │
+      │
+      ▼
 POST /api/auth/login
-        │
-Authenticate Middleware
-        │
-Find/Create User
-        │
-Update Login Metadata
-        │
-Return User Profile
+      │
+      ▼
+Authentication Middleware
+      │
+      ▼
+Create / Fetch User
+      │
+      ▼
+Return JWT & User Details
 ```
 
 ---
 
-# Event Processing Pipeline
+# Activity Processing Pipeline
 
-```
-Employee Action
+```text
+Employee Activity
         │
         ▼
-Create Event
+Log Activity
         │
         ▼
 Store in MongoDB
         │
         ▼
-Send Event to AI Service
+Send to AI Service
         │
         ▼
-Receive Risk Score
+Behavior Analysis
         │
         ▼
-Update Event
+Risk Score Generated
         │
         ▼
-Generate Alert
+Update Database
         │
         ▼
-Socket.io Notification
+Generate Alert (if required)
 ```
 
 ---
 
-# Current Models
+# Database Models
 
 ## User
 
-Stores employee information.
+Stores employee and analyst information.
 
 - Firebase UID
 - Employee ID
@@ -195,22 +189,20 @@ Stores employee information.
 - Email
 - Role
 - Department
-- Designation
 - Login Metadata
 
 ---
 
-## Event
+## Activity
 
-Stores every privileged action.
+Stores every monitored user activity.
 
 - User
 - Event Type
 - Resource
 - Device
 - IP Address
-- Location
-- Metadata
+- Timestamp
 - Risk Score
 - Risk Level
 
@@ -218,10 +210,10 @@ Stores every privileged action.
 
 ## Alert
 
-Generated when suspicious behavior is detected.
+Generated for suspicious activities.
 
-- Event
 - User
+- Activity
 - Risk Score
 - Risk Level
 - Reason
@@ -229,22 +221,27 @@ Generated when suspicious behavior is detected.
 
 ---
 
-## Session
+## Audit Log
 
-Tracks authenticated user sessions.
+Maintains a secure history of system actions.
+
+- User
+- Action
+- Timestamp
+- Integrity Hash
 
 ---
 
 # Security Features
 
 - Firebase Authentication
-- Role-Based Access Control (RBAC)
-- Permission-Based Authorization
-- Rate Limiting
+- JWT Authentication
+- Role-Based Access Control
 - Helmet Security Headers
-- Request Logging
-- Global Error Handling
-- Secure Environment Variables
+- Express Rate Limiting
+- Request Validation
+- Centralized Error Handling
+- SHA-256 Audit Integrity
 
 ---
 
@@ -258,8 +255,6 @@ CLIENT_URL=http://localhost:3000
 MONGODB_URI=
 
 JWT_SECRET=
-
-REDIS_URL=
 
 AI_SERVICE_URL=http://localhost:8000
 
@@ -276,7 +271,7 @@ Install dependencies
 npm install
 ```
 
-Run the development server
+Run development server
 
 ```bash
 npm run dev
@@ -284,54 +279,23 @@ npm run dev
 
 Health Check
 
-```
+```http
 GET /api/health
 ```
 
 ---
 
-# Development Progress
+# Features
 
-## Completed
-
-- Project Structure
-- Express Server
-- MongoDB Connection
-- Security Middleware
-- Global Error Handling
-- Logger
-- Firebase Authentication Middleware
-- RBAC (Roles & Permissions)
-- User Model
-- Event Model
-- Alert Model
-- Authentication Service
-- Event Service
-- Alert Service
-- AI Service Communication Layer
-
----
-
-## In Progress
-
-- FastAPI AI Integration
-- Event Controller
-- Alert Controller
-- Dashboard APIs
-- Socket.io Notifications
-- Redis Session Management
-
----
-
-## Upcoming
-
-- Isolation Forest Integration
-- Rule-Based Risk Engine
-- Risk-Based Authentication
-- PQC Integration
-- Audit Log Signing
-- SIEM Connectors
-- Analytics Dashboard
+- Firebase Authentication
+- RBAC Authorization
+- Activity Monitoring
+- AI Risk Analysis
+- Alert Generation
+- Audit Logging
+- REST APIs
+- MongoDB Integration
+- Secure Middleware
 
 ---
 
@@ -339,10 +303,10 @@ GET /api/health
 
 - ES Modules
 - Layered Architecture
-- Service Layer Pattern
+- MVC Pattern
+- Service Layer Design
 - Centralized Error Handling
-- Async Handler
-- Consistent API Responses
-- Enterprise Folder Structure
+- Async/Await
+- Modular Code Structure
 - Environment-Based Configuration
-- Clean Separation of Concerns
+- Clean Code Principles
